@@ -1,14 +1,17 @@
 """Web app"""
 import os
-import logging
 import sys
-from flask import Flask, flash, request, session, redirect, url_for
+from flask import Flask, flash, request, session, redirect, url_for, render_template
 from pymongo.errors import ConnectionFailure
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
+
 
 try:
     client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
@@ -19,8 +22,18 @@ except ConnectionFailure as e:
     print(f"MongoDB connection failed: {e}")
     sys.exit(1)
 
+@app.route('/')
+def view_dashboard():
+    return render_template('index.html')
+
+@app.route("/login", methods=["GET"])
+def show_login():
+    """gets page for login page"""
+    return render_template("login.html")
+
 @app.route('/login', methods=['POST'])
 def login():
+    """posts page for login page"""
     username = request.form.get('username')
     password = request.form.get('password')
 
@@ -31,7 +44,12 @@ def login():
         return redirect(url_for('view_mainscreen'))
     else:
         flash("Incorrect login credentials.")
-        return redirect(url_for('generate_login_page'))
+        return redirect(url_for('login'))
+    
+@app.route("/createprofile", methods=["GET"])
+def show_createprofile():
+    """gets page for createprofile page"""
+    return render_template("createprofile.html")
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
@@ -42,12 +60,16 @@ def create_profile():
 
     if user:
         flash("Username already exists.")
-        return redirect(url_for('generate_create_profile_page'))
+        return redirect(url_for('create_profile'))
     else:
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         users_collection.insert_one({"username": username, "password": hashed_password})
         flash("Profile created successfully.")
-        return redirect(url_for('generate_login_page'))
+        return redirect(url_for('login'))
+
+@app.route('/mainscreen')
+def view_mainscreen():
+    return render_template('mainscreen.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
