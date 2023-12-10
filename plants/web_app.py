@@ -21,6 +21,7 @@ except ConnectionFailure as e:
 
 @app.route('/login', methods=['POST'])
 def login():
+    """Login page"""
     username = request.form.get('username')
     password = request.form.get('password')
 
@@ -35,6 +36,7 @@ def login():
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
+    """Create profile page"""
     username = request.form.get('username')
     password = request.form.get('password')
     
