@@ -33,6 +33,7 @@ def show_login():
 
 @app.route('/login', methods=['POST'])
 def login():
+    """Login page"""
     """posts page for login page"""
     username = request.form.get('username')
     password = request.form.get('password')
@@ -53,6 +54,7 @@ def show_createprofile():
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
+    """Create profile page"""
     username = request.form.get('username')
     password = request.form.get('password')
     

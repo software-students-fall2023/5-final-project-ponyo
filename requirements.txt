@@ -1,0 +1,10 @@
+flask
+pymongo
+Flask-Bcrypt
+requests
+chardet
+pytest
+pymongo
+pylint
+black
+chardet
