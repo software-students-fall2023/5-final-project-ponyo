@@ -13,38 +13,39 @@ bcrypt = Bcrypt(app)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
 
-try:
-    client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
-    db = client[os.getenv("DATABASE_NAME")]
-    users_collection = db[os.getenv("COLLECTION_NAME")]
-    client.admin.command('ping')
-except ConnectionFailure as e:
-    print(f"MongoDB connection failed: {e}")
-    sys.exit(1)
+def initialize_database():
+    try:
+        client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
+        db = client[os.getenv("DATABASE_NAME")]
+        users_collection = db[os.getenv("COLLECTION_NAME")]
+        client.admin.command('ping')
+        return users_collection
+    except ConnectionFailure as e:
+        print(f"MongoDB connection failed: {e}")
+        sys.exit(1)
 
 @app.route('/')
 def view_dashboard():
     return render_template('index.html')
 
-@app.route("/login", methods=["GET"])
+@app.route("/login", methods=["GET", "POST"])
 def show_login():
-    """gets page for login page"""
-    return render_template("login.html")
-
-@app.route('/login', methods=['POST'])
-def login():
-    """posts page for login page"""
-    username = request.form.get('username')
-    password = request.form.get('password')
-
-    user = users_collection.find_one({"username": username})
-    
-    if user and bcrypt.check_password_hash(user['password'], password):
-        session['username'] = user['username']
-        return redirect(url_for('view_mainscreen'))
+    """get/post page for login page"""
+    if request.method == "GET":
+        return render_template("login.html")
     else:
-        flash("Incorrect login credentials.")
-        return redirect(url_for('login'))
+        users_collection = initialize_database()
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        user = users_collection.find_one({"username": username})
+
+        if user and bcrypt.check_password_hash(user['password'], password):
+            session['username'] = user['username']
+            return redirect(url_for('view_mainscreen'))
+        else:
+            flash("Incorrect login credentials.")
+            return redirect(url_for('show_login'))
     
 @app.route("/createprofile", methods=["GET"])
 def show_createprofile():
@@ -53,6 +54,7 @@ def show_createprofile():
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
+    users_collection = initialize_database()
     username = request.form.get('username')
     password = request.form.get('password')
     
@@ -65,7 +67,7 @@ def create_profile():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         users_collection.insert_one({"username": username, "password": hashed_password})
         flash("Profile created successfully.")
-        return redirect(url_for('login'))
+        return redirect(url_for('show_login'))
 
 @app.route('/mainscreen')
 def view_mainscreen():
