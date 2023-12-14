@@ -1,4 +1,4 @@
-FROM python:3.9-alpine
+FROM python:3.8-alpine
 
 
 WORKDIR /
@@ -7,4 +7,14 @@ ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
 COPY requirements.txt requirements.txt
+
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+
+COPY . .
+WORKDIR /
+RUN pytest plants/tests/
+RUN black plants/*.py
+RUN pylint plants/*.py
+CMD ["python3", "-m", "plants.web_app"]

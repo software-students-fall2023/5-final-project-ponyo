@@ -38,6 +38,7 @@ def show_login():
         username = request.form.get('username')
         password = request.form.get('password')
 
+
         user = users_collection.find_one({"username": username})
 
         if user and bcrypt.check_password_hash(user['password'], password):
@@ -54,6 +55,7 @@ def show_createprofile():
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
+    """Create profile page"""
     users_collection = initialize_database()
     username = request.form.get('username')
     password = request.form.get('password')
