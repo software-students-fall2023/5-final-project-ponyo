@@ -25,7 +25,7 @@ def initialize_database():
         sys.exit(1)
 
 @app.route('/')
-def view_dashboard():
+def index():
     return render_template('index.html')
 
 @app.route("/login", methods=["GET", "POST"])
@@ -38,7 +38,6 @@ def show_login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-
         user = users_collection.find_one({"username": username})
 
         if user and bcrypt.check_password_hash(user['password'], password):
@@ -47,15 +46,13 @@ def show_login():
         else:
             flash("Incorrect login credentials.")
             return redirect(url_for('show_login'))
-    
+
 @app.route("/createprofile", methods=["GET"])
 def show_createprofile():
-    """gets page for createprofile page"""
     return render_template("createprofile.html")
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
-    """Create profile page"""
     users_collection = initialize_database()
     username = request.form.get('username')
     password = request.form.get('password')
@@ -74,6 +71,11 @@ def create_profile():
 @app.route('/mainscreen')
 def view_mainscreen():
     return render_template('mainscreen.html')
+
+@app.route('/account')
+def account():
+    return render_template('account.html')
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)

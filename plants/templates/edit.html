@@ -131,6 +131,7 @@
         {% endif %}
         {% endwith %}
         <div class="d-flex">
+            <!-- Sidebar -->
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
                     <div class="icon-container">
@@ -140,7 +141,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
                     <li class="nav-item">
-                        <a href="/index" class="nav-link green-text" aria-current="page">
+                        <a href="/" class="nav-link green-text" aria-current="page">
                             Home
                           </a>
                         </li>
@@ -162,35 +163,15 @@
                 </ul>
             </div>
 
+            <!-- Main Container -->
             <div class="container-fluid">
                 <div id="jumbotron" class="jumbotron text-center">
                     <h1>PONYO</h1>
                     <h1>PLANTS</h1>
                 </div>
 
-                <div class="form-container">
-
-                    <form action="/login" method="post">
-                        <div class="mb-3 mt-3">
-                           
-                            <label for="text" name="username" class="form-label">Username:</label>
-                            <div class="input-group"> <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                              </div>
-                              <input type="text" class="form-control" name="username" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" name="password" class="form-label">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password"
-                                name="pswd" required>
-                        </div>
-                        <button type="submit" style="width: 100%;" class="btn btn-primary">Login</button>
-                        <a id="signup" href="/createprofile">Don't have an account? Sign up here</a>
-                    </form>
-
-                </div>
-
+             
+      
             </div>
         </div>
     </body>

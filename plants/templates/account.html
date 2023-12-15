@@ -140,7 +140,7 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
                     <li class="nav-item">
-                        <a href="/index" class="nav-link green-text" aria-current="page">
+                        <a href="/" class="nav-link green-text" aria-current="page">
                             Home
                           </a>
                         </li>
@@ -150,7 +150,7 @@
                           </a>
                         </li>
                         <li>
-                          <a href="/dashboard" class="nav-link green-text">
+                          <a href="dashboard" class="nav-link green-text">
                             Dashboard
                           </a>
                         </li>
@@ -168,29 +168,29 @@
                     <h1>PLANTS</h1>
                 </div>
 
-                <div class="form-container">
-
-                    <form action="/login" method="post">
-                        <div class="mb-3 mt-3">
-                           
-                            <label for="text" name="username" class="form-label">Username:</label>
-                            <div class="input-group"> <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                              </div>
-                              <input type="text" class="form-control" name="username" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" name="password" class="form-label">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password"
-                                name="pswd" required>
-                        </div>
-                        <button type="submit" style="width: 100%;" class="btn btn-primary">Login</button>
-                        <a id="signup" href="/createprofile">Don't have an account? Sign up here</a>
-                    </form>
-
+             
+               
+                <div class="container-fluid">
+                      {% if plants %}
+                      {% for plant in plants %}
+            
+                          <div class="plant-title">{{ plant.name }}</div>
+                          <div class="button-container">
+                              <a href="{{ url_for('view', plant=plant.name) }}">
+                                    <button class="btn btn-primary"> View </button>
+                            </a>
+                              <a href="{{ url_for('edit', plant=plant.name) }}">
+                                <button class="btn btn-primary"> Edit </button>
+                            </a>
+                          </div>
+                     
+                      {% endfor %}
+                  {% else %}
+                      <div style="width: 100%; text-align: center; font-weight: bold; font-size: 30px; color: grey;">
+                          Empty
+                      </div>
+                  {% endif %}
                 </div>
-
             </div>
         </div>
     </body>

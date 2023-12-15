@@ -1,91 +1,171 @@
 <html lang="en">
-    <head>
-      <title>Ponyo Plants</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="stylesheet" href="/plant/templates/style.css" >
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    </head>
-    <body>
 
-      <style>
-        body {
-          background-color: #0D2C54;
-        }
-        .jumbotron {
-          background-color: #0D2C54;
-          color: #F6511D;
-          font-family: Montserrat, sans-serif;
-          margin-top: 0;
-          padding-top: 20px;
-        }
-        .glyphicon-leaf {
-          color: #81C14B;
-        }
-        .navbar {
-          background-color: #2E933C;
-          border-color: #2E933C;
-          margin-bottom: 0;
-       }
-       #navbar-nav {
-         color: #297045;
-         font-family: Montserrat, sans-serif;
-       }
-        #navbar-nav li a {
-          color: #297045;
-          font-weight: bolder;
-          font-family: Montserrat, sans-serif;
-        }
-        #navbar-nav li a:hover {
-          color: #204E4A;
-          font-family: Montserrat, sans-serif;
-        }
-      </style>
+<head>
+  <title>Ponyo Plants</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/plant/templates/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Climate+Crisis&display=swap" rel="stylesheet">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+  <style>
+    .jumbotron {
+      background-color: #81C14B;
+      margin-top: 0;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    a {
+      font-family: Montserrat, sans-serif;
+    }
 
 
-      <!-- #ecba82 #81c14b #2e933c #297045 #204e4a -->
-      <!-- #0D2C54 #0D2C54 #0D2C54 #FFB400 #F6511D -->
+    .jumbotron h1 {
+      color: #15532e;
+      font-family: 'Climate Crisis', sans-serif;
+    }
 
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span id="glyphicon-leaf" class="glyphicon glyphicon-leaf"></span></a>
+    .glyphicon-leaf {
+      color: #81C14B;
+    }
+
+    .navbar {
+      margin-bottom: 0;
+    }
+
+    #navbar-nav {
+      color: #297045;
+      font-family: Montserrat, sans-serif;
+    }
+
+    #navbar-nav li a {
+      color: #297045;
+      font-weight: bolder;
+      font-family: Montserrat, sans-serif;
+    }
+
+    #navbar-nav li a:hover {
+      color: #204E4A;
+      font-family: Montserrat, sans-serif;
+    }
+
+
+    p {
+      font-family: Montserrat, sans-serif;
+    }
+
+    h2 {
+      font-family: Montserrat, sans-serif;
+    }
+
+    h1 {
+      margin-bottom: 0;
+    }
+
+    .green-text {
+      color: #297045;
+      font-weight: bolder;
+    }
+
+    .green-text:hover {
+      background-color: #81C14B;
+      color: white;
+    }
+
+    d-flex {
+      height: 100vh;
+    }
+
+    .fa {
+      color: #81C14B;
+    }
+
+    .icon-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  </style>
+
+  <body>
+
+    <div class="d-flex">
+      <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+          <div class="icon-container">
+            <i class="fa fa-leaf fa-2x"></i>
           </div>
-          <ul id = "navbar-nav" class="nav navbar-nav">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Page 1</a></li>
-            <li><a href="#">Page 2</a></li>
-            <li><a href="#">Page 3</a></li>
-          </ul>
-        </div>
-      </nav>
-    
-    <div id = "jumbotron" class="jumbotron text-center">
-      <h1>Ponyo Plants</h1>
-    </div>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
+          <li class="nav-item">
+            <a onclick="location.href = '/index';"  class="nav-link green-text" aria-current="page">
+              Home
+            </a>
+          </li>
+          <li>
+            <a onclick="location.href = '/login';" class="nav-link green-text">
+              Login
+            </a>
+          </li>
+          <li>
+            <a onclick="location.href = '/dashboard';" class="nav-link green-text">
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a onclick="location.href = '/account';"  class="nav-link green-text">
+              Account
+            </a>
+          </li>
+        </ul>
+      </div>
 
- 
-
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-4">
-          <h3>Keep track of your plant's health</h3>
-          <img src="plants/templates/imgs/camellia.jpg" alt="plant" width="200" height="200">
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
-        </div> 
-        <div class="col-sm-4">
-          <h3>Get notified when your plant needs attention</h3>
-          <img src="plants/templates/imgs/camellia.jpg" alt="plant" width="200" height="200">
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+      <div class="container-fluid">
+        <div id="jumbotron" class="jumbotron text-center">
+          <h1>PONYO</h1>
+          <h1>PLANTS</h1>
         </div>
-        <div class="col-sm-4">
-          <h3>Keep track of your plant's growth</h3>        
-          <img src="plants/templates/imgs/camellia.jpg" alt="plant" width="200" height="200">
-          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Keep track of your plant's health</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+              condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
+              Donec sed odio dui.</p>
+          </div>
+          <div class="col-md-6">
+            <h2>Get notified when your plant needs attention</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+              condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
+              Donec sed odio dui.</p>
+          </div>
+        </div>
       </div>
     </div>
-    
-    </body>
-    </html>
+  </body>
+
+</html>
+
+<script>
+
+  function login() {
+    window.location.href = '/login';
+  }
+  function home() {
+    window.location.href = '/index';
+  }
+  function about() {
+      window.location.href = 'about.html';
+    }
+
+</script>

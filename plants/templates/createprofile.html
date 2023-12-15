@@ -1,155 +1,218 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-</head>
-<style>
-    @font-face {
-    font-family: 'P22 Mackenzie Bold';
-    src: url('path_to_your_font/P22MackenzieBold.otf') format('opentype');
-    font-weight: bold;
-    font-style: normal;
-    }
+<html lang="en">
 
-    body {
-    font-family: 'P22 Mackenzie Bold', Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 110vh;
-    font-weight: bold;
-}
-    .top-left {
-    position: absolute;
-    top: 2em;
-    left: 1em;
-    background-color: slateblue;
-    border-radius: 5px;
-    border: 0;
-    width: 5em;
-    height: 3em;
-    color: white;
-    padding: 5px;
-}
-.title {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-.container {
-    width: 300px;
-    text-align: center;
-}
-.phone-container {
-    position: relative;
-    width: 390px;
-    height: 844px;
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 25px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-.hiddenFileInput {
-            position: absolute;
-            width: 340px;
-            height: 160px;
-            border-radius: 5px;
-            opacity: 0;
-            background-color: black;
+<head>
+    <title>Ponyo Plants</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/plant/templates/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Climate+Crisis&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <style>
+        .jumbotron {
+            background-color: #81C14B;
+            margin-top: 0;
+            padding: 20px;
+            margin-bottom: 30px;
         }
 
-.photoContainer {
-    border-radius: 5px;
-    width: 100%;
-    height: 10em;
-    border: none;
-    background-color: white;
-    color: grey;
-    cursor: pointer;
-    font-size: 16px;
-    margin: auto;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        .btn-primary {
+            background-color: #80c14b;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #76b146;
+            border: none;
+        }
 
-.profilePhoto {
-  height: 110px;
-  width: 110px;
-  background-color: #bbb;
-  border-radius: 50%;
-  color: black;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-.input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    color: black;
-    box-sizing: border-box;
-}
-.save {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border: none;
-    background-color: slateblue;
-    color: white;
-    box-sizing: border-box;
-}
-.button2 {
-    display: inline-block;
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    border: none;
-    background-color: slateblue;
-    color: white;
-    box-sizing: border-box;
-    text-decoration: none; 
-    text-align: center;
-    font-weight: normal; 
-    font-size: 16px; 
-}
+        form {
+            width: auto;
+            padding: 1em;
+        }
 
-.button2, .save {
-    width: 48%;  
-}
+        a {
+            font-family: Montserrat, sans-serif;
+        }
 
-</style>
 
-<div class="phone-container">
-    <div class="container">
-        <div class="title">Create/Edit Profile</div>
+        .jumbotron h1 {
+            color: #15532e;
+            font-family: 'Climate Crisis', sans-serif;
+        }
 
-        <!-- Flash messages display -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
+        .glyphicon-leaf {
+            color: #81C14B;
+        }
+
+        .navbar {
+            margin-bottom: 0;
+        }
+
+        #navbar-nav {
+            color: #297045;
+            font-family: Montserrat, sans-serif;
+        }
+
+        #navbar-nav li a {
+            color: #297045;
+            font-weight: bolder;
+            font-family: Montserrat, sans-serif;
+        }
+
+        #navbar-nav li a:hover {
+            color: #204E4A;
+            font-family: Montserrat, sans-serif;
+        }
+
+
+        p h2 a label {
+            font-family: Montserrat, sans-serif;
+        }
+
+        h2 {
+            font-family: Montserrat, sans-serif;
+        }
+
+        h1 {
+            margin-bottom: 0;
+        }
+
+        .green-text {
+            color: #297045;
+            font-weight: bolder;
+        }
+
+        .green-text:hover {
+            background-color: #81C14B;
+            color: white;
+        }
+
+        d-flex {
+            height: 100vh;
+        }
+
+        .fa {
+            color: #81C14B;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        #signup {
+            text-decoration: none;
+            top: 10px;
+        }
+    </style>
+
+    <body>
+        {% with messages = get_flashed_messages(category_filter=['login_error']) %}
+        {% if messages %}
+        <script>
+            window.onload = function() {
+                incorrectUorP();
+            }
+        </script>
+        {% endif %}
         {% endwith %}
+        <div class="d-flex">
+            <!-- Sidebar -->
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                    <div class="icon-container">
+                        <i class="fa fa-leaf fa-2x"></i>
+                    </div>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
+                    <li class="nav-item">
+                        <a href="/index" class="nav-link green-text" aria-current="page">
+                            Home
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/login" class="nav-link green-text">
+                            Login
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/dashboard" class="nav-link green-text">
+                            Dashboard
+                          </a>
+                        </li>
+                        <li>
+                          <a href="/account" class="nav-link green-text">
+                            Account
+                          </a>
+                    </li>
+                </ul>
+            </div>
 
-        <form method="POST" action="/createprofile">
-            <input type="text" class="input" name="username" placeholder="Username" required>
-            <input type="password" class="input" name="password" placeholder="Password" required>
-            <button class="button2" type="button" onclick="window.location.href='{{ url_for('view_dashboard') }}'">Back</button>
-            <button class="button2" type="submit">Save</button>
-        </form>
-    </div>
-</div>
+            <!-- Main Container -->
+            <div class="container-fluid">
+                <div id="jumbotron" class="jumbotron text-center">
+                    <h1>PONYO</h1>
+                    <h1>PLANTS</h1>
+                </div>
 
+                <!-- Row with Columns -->
+                <div class="form-container">
+
+                    <form action="/createprofile" method="post">
+                        <div class="mb-3 mt-3">
+                           
+                            <label for="text" name="username" class="form-label">Username:</label>
+                            <div class="input-group"> <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                              </div>
+                              <input type="text" class="form-control" name="username" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" name="password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="pwd" placeholder="Enter password"
+                                name="pswd" required>
+                        </div>
+                        <button type="submit" style="width: 100%;" class="btn btn-primary" onclick="index()">Sign up</button>
+                        <a id="signup" href="/login">Already have an account? Login here</a>
+                    </form>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </body>
+   
 </html>
+
+<script>
+
+    function about() {
+      window.location.href = 'about.html';
+    }
+  
+    function index() {
+      window.location.href = 'index.html';
+    }
+
+  
+  </script>
