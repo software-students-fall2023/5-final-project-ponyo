@@ -75,10 +75,6 @@ def create_profile():
 def view_index():
     return render_template('index.html')
 
-@app.route('/plants')
-def view_plants():
-    return render_template('plants.html')
-
 @app.route('/account')
 def view_account():
     return render_template('account.html')
@@ -93,12 +89,15 @@ def data_output():
     try:
         image_data = request.json["image"]  # extracting base64 image data
         image_binary = base64.b64decode(image_data.split(",")[1])  # decode the image
-
         json_plant_info = identifyPlant(image_binary)
         return render_template('plant.html',json_plant_info)
     except ConnectionError as error:
-        logging.error("Error uploading image: %s", error)
+        logging.error("Error uploading image: %s", error) 
         return jsonify({"error": "Error uploading image"}), 500
+
+@app.route('/plants')
+def view_plants():
+    return render_template('plants.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
