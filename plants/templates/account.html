@@ -174,28 +174,6 @@
                     <h1>PLANTS</h1>
                 </div>
 
-            
-                <div class="container-fluid">
-                      {% if plants %}
-                      {% for plant in plants %}
-            
-                          <div class="plant-title">{{ plant.name }}</div>
-                          <div class="button-container">
-                              <a href="{{ url_for('view', plant=plant.name) }}">
-                                    <button class="btn btn-primary"> View </button>
-                            </a>
-                              <a href="{{ url_for('edit', plant=plant.name) }}">
-                                <button class="btn btn-primary"> Edit </button>
-                            </a>
-                          </div>
-                     
-                      {% endfor %}
-                  {% else %}
-                      <div style="width: 100%; text-align: center; font-weight: bold; font-size: 30px; color: grey;">
-                          Empty
-                      </div>
-                  {% endif %}
-                </div>
             </div>
         </div>
     </body>

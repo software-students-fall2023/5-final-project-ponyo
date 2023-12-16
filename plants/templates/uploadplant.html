@@ -121,11 +121,33 @@
             top: 10px;
         }
 
-        .video-container {
+        .capture-container {
+            text-align: center;
+            margin: 100px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+
+        .image-container {
+            position: relative;
+            display: inline-block;
             width: 100%;
+            max-width: 600px;
+        }
+
+        img {
+            width: 30px;
+            height: auto;
+        }
+
+        #cameraStream,
+        #canvasElement {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 10px;
         }
     </style>
 
@@ -182,7 +204,7 @@
                     <h1>PLANTS</h1>
                 </div>
 
-                <div class="container">
+                <div class="capture-container">
                     <div class="image-container">
                         <video id="cameraStream" autoplay></video>
                         <canvas id="canvasElement" style="display: none;"></canvas>
@@ -236,21 +258,20 @@
         canvas.height = video.videoHeight;
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         video.pause();
-        // converting image to a data URL
         var imageDataUrl = canvas.toDataURL('image/png');
 
-        // sending image to server
-        fetch('/data_collection', { //assuming frontend & backend are on the same domain and port
+
+        fetch('/data_collection', { 
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // body of request is in JSON format
+                'Content-Type': 'application/json' 
             },
-            body: JSON.stringify({ image: imageDataUrl }) //a string containing image data, encoded in base64 format
+            body: JSON.stringify({ image: imageDataUrl }) 
         })
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                window.location.href = '/data_output'; // direct to data_output page
+                window.location.href = '/plants';
             })
             .catch(error => console.error('Error:', error));
     }
