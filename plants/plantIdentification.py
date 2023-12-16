@@ -3,6 +3,7 @@ import json
 import os
 import base64
 import chardet
+import logging
 
 def detect_encoding(file_path):
     """Figures out encoding"""
@@ -55,6 +56,6 @@ def identifyPlant(image):
      similar_images = i.get("similar_images")
      for x in similar_images:
         print("        -"+x.get("url"))
-
+#Verify if relative path is correct
 image = convBase64("images/GoldenCactusPlant.jpeg")
 identifyPlant(image)
