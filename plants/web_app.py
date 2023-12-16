@@ -87,43 +87,18 @@ def view_account():
 def view_uploadplant():
     return render_template('uploadplant.html')
 
-
-@app.route("/data_collection", methods=["GET"])
-def data_collection_get():
-    """gets page for data collection"""
-    return render_template("data_collection.html")
-
-@app.route("/data_collection", methods=["POST"])
-def data_collection_post():
+@app.route("/data_processing", methods=["POST"])
+def data_output():
     """handles post request of photo that was collected on page"""
     try:
         image_data = request.json["image"]  # extracting base64 image data
         image_binary = base64.b64decode(image_data.split(",")[1])  # decode the image
 
-        identifyPlant(image_binary)
-
-        # determining file path
-        script_dir = os.path.dirname(__file__)  # directory of the script
-        target_dir = os.path.join(
-            script_dir, "..", "images"
-        )  # navigating up 'images' folder
-
-        # defining file name, it doesn't need to be unique if docker file clears image folder
-        file_path = os.path.join(target_dir, "uploaded_image.png")
-
-        # writing image data into a file
-        with open(file_path, "wb") as file:
-            file.write(image_binary)
-        # return redirect(url_for('return_emotion'))
-
-        return jsonify(
-            {"message": "Image uploaded successfully", "file_path": file_path}
-        )
-
+        json_plant_info = identifyPlant(image_binary)
+        return json_plant_info
     except ConnectionError as error:
         logging.error("Error uploading image: %s", error)
         return jsonify({"error": "Error uploading image"}), 500
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)

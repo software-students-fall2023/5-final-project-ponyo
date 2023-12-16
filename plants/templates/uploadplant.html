@@ -261,7 +261,7 @@
         var imageDataUrl = canvas.toDataURL('image/png');
 
 
-        fetch('/data_collection', { 
+        fetch('/data_output', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' 
@@ -271,7 +271,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                window.location.href = '/plants';
+                window.location.href = '/plants'; // Why do we need to redirect here?
             })
             .catch(error => console.error('Error:', error));
     }
