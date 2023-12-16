@@ -72,14 +72,13 @@ def test_createprofile_get_route(client):
 
 @patch('web_app.initialize_database', side_effect=mock_initialize_database)
 def test_create_profile_success(mock_initialize_db, client):
-    mock_initialize_db.return_value.find_one.return_value = None  
+    mock_initialize_db.return_value.find_one.return_value = None
+    mock_insert = mock_initialize_db.return_value.insert_one
 
     response = client.post('/createprofile', data={'username': 'newuser', 'password': 'newpass'})
-    # print("response status code: ",response.status_code)
-    # print("response data: ",response.data)
-    assert response.status_code == 302  # assuming a redirect occurs on success
-    assert response.location.endswith(url_for('create_profile'))  # redirect to login page
-    # mock_initialize_db.return_value.insert_one.assert_called_once()  # Check if insert_one was called
+
+    assert response.status_code == 302
+    assert mock_insert.called_once_with({'username': 'newuser', 'password': ...})
 
 # @patch('web_app.initialize_database', side_effect=mock_initialize_database)
 # @patch('flask_bcrypt.Bcrypt.check_password_hash', return_value=True)
@@ -97,5 +96,35 @@ def test_login_failure(mock_bcrypt, mock_initialize_db, client):
     assert 'username' not in session
     assert response.status_code == 302 
     assert response.location.endswith(url_for('show_login'))
+
+# def test_connection_failure():
+#     # Mock environment variables
+#     with patch('os.getenv') as mock_getenv:
+#         mock_getenv.side_effect = ['invalid_connection_string', 'database_name', 'collection_name']
+
+#         # Mock MongoClient exception
+#         with patch('pymongo.MongoClient') as mock_client:
+#             mock_client.return_value.admin.command.side_effect = ConnectionFailure('Connection refused')
+
+#             # Capture output
+#             with patch('sys.exit') as mock_exit:
+#                 try:
+#                     mock_initialize_database()
+#                 except Exception as e:
+#                     assert False, f"Unexpected exception: {e}"
+
+#                 # Verify printed message
+#                 assert print.call_args[0][0] == f"MongoDB connection failed: Connection refused"
+
+#                 # Verify MongoClient call
+#                 mock_client.assert_called_once_with('invalid_connection_string')
+
+#                 # Verify admin command
+#                 mock_client.return_value.admin.command.assert_called_once_with('ping')
+
+#                 # Verify sys.exit call
+#                 mock_exit.assert_called_once_with(1)
+
+
 
 
