@@ -87,7 +87,7 @@ def view_account():
 def view_uploadplant():
     return render_template('uploadplant.html')
 
-@app.route("/data_processing", methods=["POST"])
+@app.route("/data_output", methods=["POST"])
 def data_output():
     """handles post request of photo that was collected on page"""
     try:
@@ -95,7 +95,7 @@ def data_output():
         image_binary = base64.b64decode(image_data.split(",")[1])  # decode the image
 
         json_plant_info = identifyPlant(image_binary)
-        return json_plant_info
+        return render_template('plant.html',json_plant_info)
     except ConnectionError as error:
         logging.error("Error uploading image: %s", error)
         return jsonify({"error": "Error uploading image"}), 500
