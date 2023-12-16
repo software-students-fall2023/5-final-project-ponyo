@@ -139,26 +139,31 @@
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
-                    <li class="nav-item">
-                        <a href="/index" class="nav-link green-text" aria-current="page">
-                            Home
-                          </a>
+                        <li class="nav-item">
+                            <a onclick="location.href = 'index';"  class="nav-link green-text" aria-current="page">
+                                Home
+                              </a>
+                            </li>
+                            <li>
+                              <a onclick="location.href = '/login';" class="nav-link green-text">
+                                Login
+                              </a>
+                            </li>
+                            <li>
+                              <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
+                                Upload plant
+                              </a>
+                            </li>
+                            <li>
+                              <a onclick="location.href = '/plants';"  class="nav-link green-text">
+                                View Plants
+                              </a>
                         </li>
                         <li>
-                          <a href="/login" class="nav-link green-text">
-                            Login
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/dashboard" class="nav-link green-text">
-                            Dashboard
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/account" class="nav-link green-text">
-                            Account
-                          </a>
-                    </li>
+                            <a onclick="location.href = '/account';" class="nav-link green-text">
+                                Account
+                            </a>
+                          </li>
                 </ul>
             </div>
 
@@ -177,12 +182,12 @@
                             <div class="input-group"> <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroupPrepend2">@</span>
                               </div>
-                              <input type="text" class="form-control" name="username" required>
+                              <input type="text" name="username" class="form-control" placeholder="Username" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="password" name="password" class="form-label">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password"
+                            <input type="password" name="password"  class="form-control" placeholder="Password"
                                 name="pswd" required>
                         </div>
                         <button type="submit" style="width: 100%;" class="btn btn-primary">Login</button>
@@ -192,8 +197,7 @@
                 </div>
 
             </div>
-        </div>
-    </body>
+        </div>    </body>
    
 </html>
 

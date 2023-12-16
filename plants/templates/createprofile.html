@@ -29,6 +29,7 @@
             background-color: #80c14b;
             border: none;
         }
+
         .btn-primary:hover {
             background-color: #76b146;
             border: none;
@@ -116,6 +117,7 @@
             align-items: center;
             width: 100%;
         }
+
         #signup {
             text-decoration: none;
             top: 10px;
@@ -123,15 +125,7 @@
     </style>
 
     <body>
-        {% with messages = get_flashed_messages(category_filter=['login_error']) %}
-        {% if messages %}
-        <script>
-            window.onload = function() {
-                incorrectUorP();
-            }
-        </script>
-        {% endif %}
-        {% endwith %}
+
         <div class="d-flex">
             <!-- Sidebar -->
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
@@ -143,76 +137,86 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
                     <li class="nav-item">
-                        <a href="/index" class="nav-link green-text" aria-current="page">
+                        <a onclick="location.href = 'index';" class="nav-link green-text" aria-current="page">
                             Home
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/login" class="nav-link green-text">
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/login';" class="nav-link green-text">
                             Login
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/dashboard" class="nav-link green-text">
-                            Dashboard
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/account" class="nav-link green-text">
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
+                            Upload plant
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/plants';" class="nav-link green-text">
+                            View Plants
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/account';" class="nav-link green-text">
                             Account
-                          </a>
+                        </a>
                     </li>
                 </ul>
             </div>
 
-            <!-- Main Container -->
             <div class="container-fluid">
                 <div id="jumbotron" class="jumbotron text-center">
                     <h1>PONYO</h1>
                     <h1>PLANTS</h1>
                 </div>
 
-                <!-- Row with Columns -->
-                <div class="form-container">
+                    <div class="form-container">
 
-                    <form action="/createprofile" method="post">
-                        <div class="mb-3 mt-3">
-                           
-                            <label for="text" name="username" class="form-label">Username:</label>
-                            <div class="input-group"> <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroupPrepend2">@</span>
-                              </div>
-                              <input type="text" class="form-control" name="username" required>
+                        <form action="/createprofile" method="POST">
+                            <div class="mb-3 mt-3">
+
+                                <label for="text" name="username" class="form-label">Username:</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="username" placeholder="Username" required>                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" name="password" class="form-label">Password:</label>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password"
-                                name="pswd" required>
-                        </div>
-                        <button type="submit" style="width: 100%;" class="btn btn-primary" onclick="index()">Sign up</button>
-                        <a id="signup" href="/login">Already have an account? Login here</a>
-                    </form>
+                            <div class="mb-3">
+                                <label for="password" name="password" class="form-label">Password:</label>
+                                <input type="password" class="form-control" name="password" placeholder="Password">
+                            </div>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Sign up</button>
+                            <a id="signup" href="/login">Already have an account? Login here</a>
+
+                         
+                        </form>
+
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <p sclass="alert alert-{{ category }}">{{ message }}</p>
+                        {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                    </div>
 
 
                 </div>
-
-
             </div>
-        </div>
     </body>
-   
+
 </html>
 
 <script>
 
     function about() {
-      window.location.href = 'about.html';
-    }
-  
-    function index() {
-      window.location.href = 'index.html';
+        window.location.href = 'about.html';
     }
 
-  
-  </script>
+    function index() {
+        window.location.href = 'index.html';
+    }
+
+
+</script>

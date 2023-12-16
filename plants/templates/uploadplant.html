@@ -27,6 +27,7 @@
             background-color: #80c14b;
             border: none;
         }
+
         .btn-primary:hover {
             background-color: #76b146;
             border: none;
@@ -114,9 +115,17 @@
             align-items: center;
             width: 100%;
         }
+
         #signup {
             text-decoration: none;
             top: 10px;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
         }
     </style>
 
@@ -124,14 +133,13 @@
         {% with messages = get_flashed_messages(category_filter=['login_error']) %}
         {% if messages %}
         <script>
-            window.onload = function() {
+            window.onload = function () {
                 incorrectUorP();
             }
         </script>
         {% endif %}
         {% endwith %}
         <div class="d-flex">
-            <!-- Sidebar -->
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
                     <div class="icon-container">
@@ -141,75 +149,120 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
                     <li class="nav-item">
-                        <a href="/" class="nav-link green-text" aria-current="page">
+                        <a onclick="location.href = 'index';" class="nav-link green-text" aria-current="page">
                             Home
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/login" class="nav-link green-text">
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/login';" class="nav-link green-text">
                             Login
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/dashboard" class="nav-link green-text">
-                            Dashboard
-                          </a>
-                        </li>
-                        <li>
-                          <a href="/account" class="nav-link green-text">
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
+                            Upload plant
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/plants';" class="nav-link green-text">
+                            View Plants
+                        </a>
+                    </li>
+                    <li>
+                        <a onclick="location.href = '/account';" class="nav-link green-text">
                             Account
-                          </a>
+                        </a>
                     </li>
                 </ul>
             </div>
 
-            <!-- Main Container -->
             <div class="container-fluid">
                 <div id="jumbotron" class="jumbotron text-center">
                     <h1>PONYO</h1>
                     <h1>PLANTS</h1>
                 </div>
 
-             
-               
-                <div class="container-fluid">
-                      {% if plants %}
-                      {% for plant in plants %}
- 
-                          <div class="plant-title">{{ plant.name }}</div>
-                          <div class="button-container">
-                              <a href="{{ url_for('view', plant=plant.name) }}">
-                                    <button class="btn btn-primary"> View </button>
-                            </a>
-                              <a href="{{ url_for('edit', plant=plant.name) }}">
-                                <button class="btn btn-primary"> Edit </button>
-                            </a>
-                          </div>
-         
-                      {% endfor %}
-                  {% else %}
-                      <div style="width: 100%; text-align: center; font-weight: bold; font-size: 30px; color: grey;">
-                          Empty
-                      </div>
-                  {% endif %}
+                <div class="container">
+                    <div class="image-container">
+                        <video id="cameraStream" autoplay></video>
+                        <canvas id="canvasElement" style="display: none;"></canvas>
+                    </div>
+                    <button id="captureButton" type="button" onclick="takePhoto()" class="btn btn-primary"
+                        data-toggle="button" aria-pressed="false" autocomplete="off" style="display: none;">
+                        Capture
+                    </button>
                 </div>
             </div>
+
         </div>
     </body>
-   
+
 </html>
 
 <script>
 
     function about() {
-      window.location.href = 'about.html';
+        window.location.href = 'about.html';
     }
 
     function index() {
-      window.location.href = 'index.html';
+        window.location.href = 'index.html';
     }
 
     function incorrectUorP() {
-      alert("Incorrect Username or Password! Please try Again or Create a Profile.");
+        alert("Incorrect Username or Password! Please try Again or Create a Profile.");
     }
-  </script>
+
+    const video = document.getElementById('cameraStream');
+    const canvas = document.getElementById('canvasElement');
+    const button = document.getElementById('captureButton');
+    const context = canvas.getContext('2d');
+
+
+
+    if (navigator.mediaDevices.getUserMedia) { // accessing device camera & stream to video element
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                video.srcObject = stream;
+                button.style.display = "block";
+            })
+            .catch(function (error) {
+                console.log("Something went wrong with the webcam stream!");
+            });
+    }
+
+    function takePhoto() {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        video.pause();
+        // converting image to a data URL
+        var imageDataUrl = canvas.toDataURL('image/png');
+
+        // sending image to server
+        fetch('/data_collection', { //assuming frontend & backend are on the same domain and port
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // body of request is in JSON format
+            },
+            body: JSON.stringify({ image: imageDataUrl }) //a string containing image data, encoded in base64 format
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                window.location.href = '/data_output'; // direct to data_output page
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function about() {
+        window.location.href = 'about.html';
+    }
+    function goBack() {
+        window.history.back();
+    }
+    function homepage() {
+        window.location.href = 'homepage.html';
+    }
+</script>
+</script>

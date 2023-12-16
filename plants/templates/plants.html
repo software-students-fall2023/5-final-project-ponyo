@@ -131,7 +131,6 @@
         {% endif %}
         {% endwith %}
         <div class="d-flex">
-            <!-- Sidebar -->
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
                     <div class="icon-container">
@@ -141,29 +140,33 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto" style="height: 100%;">
                     <li class="nav-item">
-                        <a href="/" class="nav-link green-text" aria-current="page">
+                        <a onclick="location.href = 'index';"  class="nav-link green-text" aria-current="page">
                             Home
                           </a>
                         </li>
                         <li>
-                          <a href="/login" class="nav-link green-text">
+                          <a onclick="location.href = '/login';" class="nav-link green-text">
                             Login
                           </a>
                         </li>
                         <li>
-                          <a href="/dashboard" class="nav-link green-text">
-                            Dashboard
+                          <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
+                            Upload plant
                           </a>
                         </li>
                         <li>
-                          <a href="/account" class="nav-link green-text">
-                            Account
+                          <a onclick="location.href = '/plants';"  class="nav-link green-text">
+                            View Plants
                           </a>
                     </li>
+                    <li>
+                        <a onclick="location.href = '/account';" class="nav-link green-text">
+                            Account
+                        </a>
+                      </li>
                 </ul>
             </div>
 
-            <!-- Main Container -->
             <div class="container-fluid">
                 <div id="jumbotron" class="jumbotron text-center">
                     <h1>PONYO</h1>
@@ -171,7 +174,28 @@
                 </div>
 
              
-      
+               
+                <div class="container-fluid">
+                      {% if plants %}
+                      {% for plant in plants %}
+            
+                          <div class="plant-title">{{ plant.name }}</div>
+                          <div class="button-container">
+                              <a href="{{ url_for('view', plant=plant.name) }}">
+                                    <button class="btn btn-primary"> View </button>
+                            </a>
+                              <a href="{{ url_for('edit', plant=plant.name) }}">
+                                <button class="btn btn-primary"> Edit </button>
+                            </a>
+                          </div>
+                     
+                      {% endfor %}
+                  {% else %}
+                      <div style="width: 100%; text-align: center; font-weight: bold; font-size: 30px; color: grey;">
+                          Empty
+                      </div>
+                  {% endif %}
+                </div>
             </div>
         </div>
     </body>

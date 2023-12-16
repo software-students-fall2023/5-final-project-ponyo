@@ -42,7 +42,7 @@ def show_login():
 
         if user and bcrypt.check_password_hash(user['password'], password):
             session['username'] = user['username']
-            return redirect(url_for('view_mainscreen'))
+            return redirect(url_for('view_index'))
         else:
             flash("Incorrect login credentials.")
             return redirect(url_for('show_login'))
@@ -66,15 +66,23 @@ def create_profile():
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         users_collection.insert_one({"username": username, "password": hashed_password})
         flash("Profile created successfully.")
-        return redirect(url_for('show_login'))
+        return redirect(url_for('view_index'))
 
-@app.route('/mainscreen')
-def view_mainscreen():
-    return render_template('mainscreen.html')
+@app.route('/index')
+def view_index():
+    return render_template('index.html')
+
+@app.route('/plants')
+def view_plants():
+    return render_template('plants.html')
 
 @app.route('/account')
-def account():
+def view_account():
     return render_template('account.html')
+
+@app.route('/uploadplant')
+def view_uploadplant():
+    return render_template('uploadplant.html')
 
 
 if __name__ == "__main__":
