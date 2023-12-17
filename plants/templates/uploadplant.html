@@ -152,7 +152,7 @@
     </style>
 
     <body>
-        {% with messages = get_flashed_messages(category_filter=['login_error']) %}
+        <!-- {% with messages = get_flashed_messages(category_filter=['login_error']) %}
         {% if messages %}
         <script>
             window.onload = function () {
@@ -160,6 +160,19 @@
             }
         </script>
         {% endif %}
+        {% endwith %} -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        <script>
+            window.onload = function() {
+                {% for category, message in messages %}
+                    {% if category == 'login_error' %}
+                        incorrectUorP();
+                    {% elif category == 'not_logged_in' %}
+                        notLoggedIn();
+                    {% endif %}
+                {% endfor %}
+            }
+        </script>
         {% endwith %}
         <div class="d-flex">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
@@ -176,20 +189,22 @@
                         </a>
                     </li>
                     <li>
-                        <a onclick="location.href = '/login';" class="nav-link green-text">
-                            Login
-                        </a>
+                        {% if 'username' in session %}
+                        <a href="{{ url_for('logout') }}" class="nav-link green-text">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('show_login') }}" class="nav-link green-text">Login</a>
+                    {% endif %}
                     </li>
                     <li>
                         <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
                             Upload plant
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a onclick="location.href = '/account';" class="nav-link green-text">
                             Account
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 
@@ -198,7 +213,6 @@
                     <h1>PONYO</h1>
                     <h1>PLANTS</h1>
                 </div>
-
                 <div class="capture-container">
                     <form id="uploadForm" enctype="multipart/form-data">
                         <input type="file" id="imageInput" name="image" accept="image/*">

@@ -155,20 +155,22 @@
                           </a>
                         </li>
                         <li>
-                          <a onclick="location.href = '/login';" class="nav-link green-text">
-                            Login
-                          </a>
+                            {% if 'username' in session %}
+                            <a href="{{ url_for('logout') }}" class="nav-link green-text">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('show_login') }}" class="nav-link green-text">Login</a>
+                        {% endif %}
                         </li>
                         <li>
                           <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
                             Upload plant
                           </a>
                         </li>
-                    <li>
+                    <!-- <li>
                         <a onclick="location.href = '/account';" class="nav-link green-text">
                             Account
                         </a>
-                      </li>
+                      </li> -->
                 </ul>
             </div>
 
