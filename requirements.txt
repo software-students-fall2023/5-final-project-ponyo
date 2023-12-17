@@ -1,5 +1,6 @@
 flask
 pymongo
+python-dotenv
 Flask-Bcrypt
 requests
 chardet
@@ -9,4 +10,3 @@ pylint
 black
 chardet
 mongomock
-python-dotenv
