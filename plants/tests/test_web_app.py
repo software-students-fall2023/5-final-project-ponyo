@@ -2,7 +2,7 @@ import os
 import sys
 import pytest
 import mongomock
-from ..web_app import initialize_database, app, bcrypt
+from plants.web_app import initialize_database, app, bcrypt
 from pymongo.errors import ConnectionFailure
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
