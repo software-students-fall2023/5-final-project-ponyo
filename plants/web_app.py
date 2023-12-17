@@ -1,11 +1,14 @@
 """Web app"""
 import os
 import sys
-from flask import Flask, flash, request, session, redirect, url_for, render_template
+import base64
+import logging
+from flask import Flask, flash, request, session, redirect, url_for, render_template, jsonify
 from pymongo.errors import ConnectionFailure
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
+from plantIdentification import identifyPlant
 
 load_dotenv()
 app = Flask(__name__)
@@ -72,10 +75,6 @@ def create_profile():
 def view_index():
     return render_template('index.html')
 
-@app.route('/plants')
-def view_plants():
-    return render_template('plants.html')
-
 @app.route('/account')
 def view_account():
     return render_template('account.html')
@@ -84,6 +83,17 @@ def view_account():
 def view_uploadplant():
     return render_template('uploadplant.html')
 
+@app.route('/view_plants', methods=['POST'])
+def view_plants():
+    image_data = request.json["image"]  # extracting base64 image data
+    is_healthy_prob, plant_name, plant_probability = identifyPlant(image_data)
+    is_healthy_percentage = "{:.1f}%".format(is_healthy_prob * 100)
+    plant_probability = "{:.1f}%".format(plant_probability * 100)
+
+    return render_template('plants.html', 
+                           is_healthy_prob=is_healthy_percentage, 
+                           plant_name=plant_name, 
+                           plant_probability=plant_probability)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)

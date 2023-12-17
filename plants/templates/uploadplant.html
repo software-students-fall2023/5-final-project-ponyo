@@ -186,11 +186,6 @@
                         </a>
                     </li>
                     <li>
-                        <a onclick="location.href = '/plants';" class="nav-link green-text">
-                            View Plants
-                        </a>
-                    </li>
-                    <li>
                         <a onclick="location.href = '/account';" class="nav-link green-text">
                             Account
                         </a>
@@ -205,14 +200,10 @@
                 </div>
 
                 <div class="capture-container">
-                    <div class="image-container">
-                        <video id="cameraStream" autoplay></video>
-                        <canvas id="canvasElement" style="display: none;"></canvas>
-                    </div>
-                    <button id="captureButton" type="button" onclick="takePhoto()" class="btn btn-primary"
-                        data-toggle="button" aria-pressed="false" autocomplete="off" style="display: none;">
-                        Capture
-                    </button>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <input type="file" id="imageInput" name="image" accept="image/*">
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
                 </div>
             </div>
 
@@ -235,46 +226,29 @@
         alert("Incorrect Username or Password! Please try Again or Create a Profile.");
     }
 
-    const video = document.getElementById('cameraStream');
-    const canvas = document.getElementById('canvasElement');
-    const button = document.getElementById('captureButton');
-    const context = canvas.getContext('2d');
-
-
-
-    if (navigator.mediaDevices.getUserMedia) { // accessing device camera & stream to video element
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (stream) {
-                video.srcObject = stream;
-                button.style.display = "block";
+    
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var imageFile = document.getElementById('imageInput').files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(imageFile);
+        reader.onload = function(e) {
+            var imageData = e.target.result;
+            fetch('/view_plants', {  
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ image: imageData })
             })
-            .catch(function (error) {
-                console.log("Something went wrong with the webcam stream!");
-            });
-    }
-
-    function takePhoto() {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        video.pause();
-        var imageDataUrl = canvas.toDataURL('image/png');
-
-
-        fetch('/data_collection', { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json' 
-            },
-            body: JSON.stringify({ image: imageDataUrl }) 
-        })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
-                console.log(data);
-                window.location.href = '/plants';
+                document.body.innerHTML = data;
             })
             .catch(error => console.error('Error:', error));
-    }
+        };
+    });
+
 
     function about() {
         window.location.href = 'about.html';
