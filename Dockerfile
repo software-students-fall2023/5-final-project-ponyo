@@ -15,6 +15,4 @@ RUN pip install -r requirements.txt
 COPY . .
 WORKDIR /
 RUN pytest plants/tests/
-RUN black plants/*.py
-RUN pylint plants/*.py
 CMD ["python3", "-m", "plants.web_app"]

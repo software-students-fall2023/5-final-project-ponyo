@@ -8,3 +8,5 @@ pymongo
 pylint
 black
 chardet
+mongomock
+python-dotenv

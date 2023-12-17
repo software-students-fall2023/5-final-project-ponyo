@@ -38,7 +38,7 @@ def identifyPlant(image):
     "health": "all"
   })
   headers = {
-    'Api-Key': 'RnK0QKj0txGAa0MlQiNkFHk33IvDHiU3KLTy7zSfV1NbsiJpAu',
+    'Api-Key': API_TOKEN,
     'Content-Type': 'application/json'
   }
 
