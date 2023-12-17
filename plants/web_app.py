@@ -83,21 +83,17 @@ def view_account():
 def view_uploadplant():
     return render_template('uploadplant.html')
 
-@app.route("/data_output", methods=["POST"])
-def data_output():
-    """handles post request of photo that was collected on page"""
-    try:
-        image_data = request.json["image"]  # extracting base64 image data
-        image_binary = base64.b64decode(image_data.split(",")[1])  # decode the image
-        json_plant_info = identifyPlant(image_binary)
-        return render_template('plant.html',json_plant_info)
-    except ConnectionError as error:
-        logging.error("Error uploading image: %s", error) 
-        return jsonify({"error": "Error uploading image"}), 500
-
-@app.route('/plants')
+@app.route('/view_plants', methods=['POST'])
 def view_plants():
-    return render_template('plants.html')
+    image_data = request.json["image"]  # extracting base64 image data
+    is_healthy_prob, plant_name, plant_probability = identifyPlant(image_data)
+    is_healthy_percentage = "{:.1f}%".format(is_healthy_prob * 100)
+    plant_probability = "{:.1f}%".format(plant_probability * 100)
+
+    return render_template('plants.html', 
+                           is_healthy_prob=is_healthy_percentage, 
+                           plant_name=plant_name, 
+                           plant_probability=plant_probability)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)

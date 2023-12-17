@@ -24,6 +24,7 @@ def identifyPlant(image):
   url = "https://plant.id/api/v3/identification"
   script_dir = os.path.dirname(os.path.abspath(__file__))
   API_TOKEN = os.getenv("API_TOKEN")
+
   if not API_TOKEN:
     FILE_PATH_API = os.path.join(script_dir, "config.json")
     encodingAPI = detect_encoding(FILE_PATH_API)
@@ -43,19 +44,36 @@ def identifyPlant(image):
 
   response = requests.request("POST", url, headers=headers, data=payload)
   textJSON = json.loads(response.text)
-  print("Possible Diseases:")
-  diseases = textJSON.get("result").get("disease").get("suggestions")
-  for i in diseases:
-     print("    "+i.get("name"),i.get("probability"))
 
+  is_healthy_prob = textJSON.get("result", {}).get("is_healthy", {}).get("probability", None)
 
-  print("Plant Classification:")
-  classification = textJSON.get("result").get("classification").get("suggestions")
-  for i in classification:
-     print("    "+i.get("name"),i.get("probability"))
-     similar_images = i.get("similar_images")
-     for x in similar_images:
-        print("        -"+x.get("url"))
-#Verify if relative path is correct
-image = convBase64("images/GoldenCactusPlant.jpeg")
-identifyPlant(image)
+  # extracting top classification (with the highest probability)
+  classifications = textJSON.get("result", {}).get("classification", {}).get("suggestions", [])
+  if classifications:
+      top_classification = max(classifications, key=lambda x: x.get("probability", 0))
+      plant_name = top_classification.get("name")
+      plant_probability = top_classification.get("probability")
+  else:
+      plant_name = None
+      plant_probability = None
+  return is_healthy_prob, plant_name, plant_probability
+  # return {
+  #     "is_healthy_probability": is_healthy_prob,
+  #     "top_classification_name": plant_name,
+  #     "top_classification_probability": plant_probability
+  # }
+  # print("Possible Diseases:")
+  # diseases = textJSON.get("result").get("disease").get("suggestions")
+  # for i in diseases:
+  #    print("    "+i.get("name"),i.get("probability"))
+
+  # print("Plant Classification:")
+  # classification = textJSON.get("result").get("classification").get("suggestions")
+  # for i in classification:
+  #    print("    "+i.get("name"),i.get("probability"))
+  #    similar_images = i.get("similar_images")
+  #    for x in similar_images:
+  #       print("        -"+x.get("url"))
+# Verify if relative path is correct - uncomment 
+# image = convBase64("images/GoldenCactusPlant.jpeg")
+# identifyPlant(image)
