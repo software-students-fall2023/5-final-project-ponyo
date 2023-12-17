@@ -130,6 +130,16 @@
         </script>
         {% endif %}
         {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=['not_logged_in']) %}
+        {% if messages %}
+        <script>
+            window.onload = function() {
+                notLoggedIn();
+            }
+        </script>
+        {% endif %}
+        {% endwith %}
         <div class="d-flex">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
@@ -145,20 +155,22 @@
                               </a>
                             </li>
                             <li>
-                              <a onclick="location.href = '/login';" class="nav-link green-text">
-                                Login
-                              </a>
+                                {% if 'username' in session %}
+                                <a href="{{ url_for('logout') }}" class="nav-link green-text">Logout</a>
+                            {% else %}
+                                <a href="{{ url_for('show_login') }}" class="nav-link green-text">Login</a>
+                            {% endif %}
                             </li>
                             <li>
                               <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
                                 Upload plant
                               </a>
                             </li>
-                        <li>
+                        <!-- <li>
                             <a onclick="location.href = '/account';" class="nav-link green-text">
                                 Account
                             </a>
-                          </li>
+                          </li> -->
                 </ul>
             </div>
 
@@ -208,5 +220,9 @@
 
     function incorrectUorP() {
       alert("Incorrect Username or Password! Please try Again or Create a Profile.");
+    }
+
+    function notLoggedIn() {
+      alert("You must be logged in to upload a plant.");
     }
   </script>

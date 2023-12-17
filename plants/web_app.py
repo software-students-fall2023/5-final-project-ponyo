@@ -15,7 +15,6 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
-
 def initialize_database():
     try:
         client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
@@ -47,8 +46,13 @@ def show_login():
             session['username'] = user['username']
             return redirect(url_for('view_index'))
         else:
-            flash("Incorrect login credentials.")
+            flash("Incorrect login credentials.","login_error")
             return redirect(url_for('show_login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)  # removing the username from the session
+    return redirect(url_for('index'))
 
 @app.route("/createprofile", methods=["GET"])
 def show_createprofile():
@@ -75,12 +79,19 @@ def create_profile():
 def view_index():
     return render_template('index.html')
 
-@app.route('/account')
-def view_account():
-    return render_template('account.html')
+# @app.route('/account')
+# def view_account():
+#     if 'username' not in session:
+#         flash("Please log in to access your account.","not_logged_in")
+#         return redirect(url_for('show_login'))
+#     return render_template('account.html')
 
 @app.route('/uploadplant')
 def view_uploadplant():
+    if 'username' not in session:
+        # print("not logged in")
+        flash("Please log in to upload plants.","not_logged_in")
+        return redirect(url_for('show_login'))
     return render_template('uploadplant.html')
 
 @app.route('/view_plants', methods=['POST'])
@@ -94,7 +105,6 @@ def view_plants():
                            is_healthy_prob=is_healthy_percentage, 
                            plant_name=plant_name, 
                            plant_probability=plant_probability)
-
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
 

@@ -130,6 +130,7 @@
         </script>
         {% endif %}
         {% endwith %}
+        
         <div class="d-flex">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
@@ -145,9 +146,11 @@
                           </a>
                         </li>
                         <li>
-                          <a onclick="location.href = '/login';" class="nav-link green-text">
-                            Login
-                          </a>
+                            {% if 'username' in session %}
+                            <a href="{{ url_for('logout') }}" class="nav-link green-text">Logout</a>
+                        {% else %}
+                            <a href="{{ url_for('show_login') }}" class="nav-link green-text">Login</a>
+                        {% endif %}
                         </li>
                         <li>
                           <a onclick="location.href = '/uploadplant';" class="nav-link green-text">
@@ -168,8 +171,17 @@
                     <h1>PONYO</h1>
                     <h1>PLANTS</h1>
                 </div>
-
+                <div class="flash-messages">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-warning">{{ message }}</div> 
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>    
             </div>
+
         </div>
     </body>
    
@@ -187,5 +199,9 @@
 
     function incorrectUorP() {
       alert("Incorrect Username or Password! Please try Again or Create a Profile.");
+    }
+
+    function notLoggedIn() {
+      alert("You must be logged in to access your account.");
     }
   </script>
