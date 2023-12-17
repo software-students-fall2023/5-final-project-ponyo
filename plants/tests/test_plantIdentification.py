@@ -20,8 +20,7 @@ def test_detect_encoding(mocker_chardet_detect):
     mocker_chardet_detect.assert_called_once_with(file_content)
     assert result == "utf-8"
 
-TEST_IMAGE_PATH = "plants/tests/test_images/GoldenCactusPlant.jpeg"
-
+TEST_IMAGE_PATH = "tests/test_images/GoldenCactusPlant.jpeg"
 def test_convBase64_with_valid_image():
     expected_result = get_expected_result(TEST_IMAGE_PATH)
     result = convBase64(TEST_IMAGE_PATH)
