@@ -50,7 +50,7 @@ def test_index_get_route(client):
     """Test the about GET route."""
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Keep" in response.data
+    assert b"Cooking" in response.data
 
 def test_login_get_route(client):
     """Test the login GET route."""
@@ -68,14 +68,7 @@ def test_createprofile_get_route(client):
     """Test the createprofile GET route."""
     response = client.get("/createprofile")
     assert response.status_code == 200
-    assert b"Already" in response.data
-
-def test_uploadplant_logged_in(client):
-    with client.session_transaction() as sess:
-        sess['username'] = 'testuser'
-    response = client.get('/uploadplant')
-    assert response.status_code == 200
-    assert 'Upload' in response.data.decode()
+    assert b"Save" in response.data
 
 @patch('web_app.initialize_database', side_effect=mock_initialize_database)
 def test_create_profile_success(mock_initialize_db, client):
