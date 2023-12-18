@@ -8,7 +8,7 @@ from pymongo.errors import ConnectionFailure
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from dotenv import load_dotenv
-from plantIdentification import identifyPlant
+from plants.plantIdentification import identifyPlant
 
 load_dotenv()
 app = Flask(__name__)
