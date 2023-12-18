@@ -11,8 +11,9 @@ COPY requirements.txt requirements.txt
 RUN apk add --no-cache gcc musl-dev linux-headers
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+RUN pip list | grep pytest
 
 COPY . .
 WORKDIR /
-RUN pytest plants/tests/
+RUN pytest
 CMD ["python3", "-m", "plants.web_app"]

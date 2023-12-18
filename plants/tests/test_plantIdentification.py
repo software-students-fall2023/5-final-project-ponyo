@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import mock_open, patch
 import chardet
 import base64
-from plants.plantIdentification import detect_encoding, convBase64  # Replace 'your_module' with the actual module name
+from plantIdentification import detect_encoding, convBase64  # Replace 'your_module' with the actual module name
 
 @pytest.fixture
 def mocker_chardet_detect(mocker):

@@ -37,12 +37,14 @@ def identifyPlant(image):
     "similar_images": True,
     "health": "all"
   })
+  
   headers = {
     'Api-Key': API_TOKEN,
     'Content-Type': 'application/json'
   }
 
   response = requests.request("POST", url, headers=headers, data=payload)
+  print(response)
   textJSON = json.loads(response.text)
 
   is_healthy_prob = textJSON.get("result", {}).get("is_healthy", {}).get("probability", None)

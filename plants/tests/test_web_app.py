@@ -2,7 +2,11 @@ import os
 import sys
 import pytest
 import mongomock
+<<<<<<< Updated upstream
 from plants.web_app import initialize_database, app, bcrypt
+=======
+from web_app import initialize_database, app, bcrypt
+>>>>>>> Stashed changes
 from pymongo.errors import ConnectionFailure
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
