@@ -15,5 +15,5 @@ RUN pip list | grep pytest
 
 COPY . .
 WORKDIR /
-RUN pytest
+RUN pytest /plants/tests/
 CMD ["python3", "-m", "plants.web_app"]
