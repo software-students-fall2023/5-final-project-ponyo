@@ -32,7 +32,6 @@ jobs:
 
     - name: Build and Push Docker image
       run: |
-        cd plants
         docker build -t rafinator123/ponyo-plants .
         docker tag rafinator123/ponyo-plants:latest
         docker push rafinator123/ponyo-plants:latest
