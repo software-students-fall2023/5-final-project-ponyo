@@ -35,11 +35,25 @@ jobs:
         docker build -t rafinator123/ponyo-plants .
         docker push rafinator123/ponyo-plants
 
+    # - name: Deploy to Digital Ocean
+    #   uses: appleboy/ssh-action@v0.1.2
+    #   with:
+    #     host: ${{ secrets.SSH_HOST }}
+    #     key: ${{ secrets.DROPLET_PASSWORD }}
+    #     username: root
+
+    #     script: |
+    #       cd 5-final-project-ponyo
+    #       git pull
+    #       docker-compose down
+    #       docker-compose pull
+    #       docker-compose up -d
+
     - name: Deploy to Digital Ocean
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan -H 104.131.66.30 >> ~/.ssh/known_hosts
-        sshpass -p 'aee967fe7b2c397181bf2a38ce' ssh -o StrictHostKeyChecking=no root@104.131.66.30 "
+        sshpass -p 'Roco' ssh -o StrictHostKeyChecking=no root@104.131.66.30 "
         cd 5-final-project-ponyo &&
         docker-compose down &&
         git pull origin main &&
