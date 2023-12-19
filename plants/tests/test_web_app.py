@@ -8,6 +8,24 @@ from pymongo.errors import ConnectionFailure
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
 
+# jdfklas
+
+# @patch('pymongo.MongoClient')
+# def test_mongodb_connection_success(mock_mongo_client):
+#     """Test to ensure successful MongoDB connection."""
+#     mock_mongo_client.return_value.admin.command.return_value = True
+#     users_collection = initialize_database()
+#     mock_mongo_client.assert_called_with(os.getenv("DATABASE_CONNECTION_STRING"))
+
+# @patch('pymongo.MongoClient')
+# def test_mongodb_connection_failure(mock_mongo_client):
+#     """Test to simulate MongoDB connection failure."""
+#     mock_mongo_client.side_effect = ConnectionFailure("Failed to connect")
+#     with pytest.raises(SystemExit) as pytest_wrapped_e:
+#         initialize_database()
+#     assert pytest_wrapped_e.type == SystemExit
+#     assert pytest_wrapped_e.value.code == 1
+
 def mock_initialize_database():
     mock_client = mongomock.MongoClient()
     db = mock_client['test_db']

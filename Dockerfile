@@ -15,5 +15,6 @@ RUN pip list | grep pytest
 
 COPY . .
 WORKDIR /
-RUN pytest /plants/tests/
+RUN coverage run -m pytest /plants/tests
+RUN coverage report -m
 CMD ["python3", "-m", "plants.web_app"]
