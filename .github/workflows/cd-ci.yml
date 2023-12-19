@@ -38,10 +38,12 @@ jobs:
     - name: Deploy to Digital Ocean
       run: |
         mkdir -p ~/.ssh
-        ssh-keyscan -H 104.131.66.30 >> ~/.ssh/known_hosts
-        sshpass -p 'Roco' ssh -o StrictHostKeyChecking=no root@104.131.66.30 "
+        ssh-keyscan -H 167.172.18.107 >> ~/.ssh/known_hosts
+        sshpass -p '1234PonyoisGreat' ssh -o StrictHostKeyChecking=no root@167.172.18.107 "
         cd 5-final-project-ponyo &&
         docker-compose down &&
         git pull origin main &&
         docker-compose build --no-cache &&
         docker-compose up -d" || true
+
+      
