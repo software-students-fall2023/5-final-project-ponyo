@@ -16,12 +16,12 @@ def database_connection_string():
     """DB connection string"""
     return DATABASE_CONNECTION_STRING
 
-def mock_initialize_database(db_connection_string):
-    mock_client = mongomock.MongoClient()
-    db = mock_client['test_db']
-    users_collection = db.get_collection("users")
-    users_collection.insert_one({"username": "testuser", "password": bcrypt.generate_password_hash("testpass").decode('utf-8')})
-    return db,users_collection
+# def mock_initialize_database(db_connection_string):
+#     mock_client = mongomock.MongoClient()
+#     db = mock_client['test_db']
+#     users_collection = db.get_collection("users")
+#     users_collection.insert_one({"username": "testuser", "password": bcrypt.generate_password_hash("testpass").decode('utf-8')})
+#     return db,users_collection
 
 # @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
 def test_connection_to_db_successful():

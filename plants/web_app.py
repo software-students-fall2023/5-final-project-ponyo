@@ -18,15 +18,15 @@ db_connection_string = os.getenv("DATABASE_CONNECTION_STRING")
 
 
 def initialize_database(db_connection_string):
-    try:
-        client = MongoClient(db_connection_string)
-        db = client.ponyo_plant
-        users_collection = db.get_collection("users")
-        client.admin.command('ping')
-        return db, users_collection
-    except ConnectionError as error:
-        logging.error("Exception connecting to MongoDB: %s", error)
-        raise
+    # try:
+    client = MongoClient(db_connection_string)
+    db = client.ponyo_plant
+    users_collection = db.get_collection("users")
+    client.admin.command('ping')
+    return db, users_collection
+    # except ConnectionError as error:
+    #     logging.error("Exception connecting to MongoDB: %s", error)
+    #     raise
 
 @app.route('/')
 def index():
