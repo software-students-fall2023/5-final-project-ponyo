@@ -6,10 +6,10 @@ services:
     ports:
       - '5001:5001'
     environment:
-      - DATABASE_CONNECTION_STRING
+      - DATABASE_CONNECTION_STRING=mongodb+srv://ykim021227:gKP6MGYC0lAI96bb@plant.zm0eyo8.mongodb.net/?retryWrites=true&w=majority
       - FLASK_SECRET_KEY
       - API_KEY
-    links:
+    depends_on:
       - mongodb
   mongodb:
     container_name: mongodb
