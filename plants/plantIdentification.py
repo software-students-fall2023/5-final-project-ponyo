@@ -59,23 +59,3 @@ def identifyPlant(image):
       plant_name = None
       plant_probability = None
   return is_healthy_prob, plant_name, plant_probability
-  # return {
-  #     "is_healthy_probability": is_healthy_prob,
-  #     "top_classification_name": plant_name,
-  #     "top_classification_probability": plant_probability
-  # }
-  # print("Possible Diseases:")
-  # diseases = textJSON.get("result").get("disease").get("suggestions")
-  # for i in diseases:
-  #    print("    "+i.get("name"),i.get("probability"))
-
-  # print("Plant Classification:")
-  # classification = textJSON.get("result").get("classification").get("suggestions")
-  # for i in classification:
-  #    print("    "+i.get("name"),i.get("probability"))
-  #    similar_images = i.get("similar_images")
-  #    for x in similar_images:
-  #       print("        -"+x.get("url"))
-# Verify if relative path is correct - uncomment 
-# image = convBase64("images/GoldenCactusPlant.jpeg")
-# identifyPlant(image)
