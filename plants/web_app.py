@@ -15,11 +15,12 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
+
 def initialize_database():
     try:
         client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
-        db = client[os.getenv("DATABASE_NAME")]
-        users_collection = db[os.getenv("COLLECTION_NAME")]
+        db = client.ponyo_plant
+        users_collection = db.get_collection("users")
         client.admin.command('ping')
         return users_collection
     except ConnectionFailure as e:
