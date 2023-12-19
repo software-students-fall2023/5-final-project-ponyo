@@ -16,7 +16,7 @@
 
 Ponyo Plants is a plant health app that identifies and analyzes a photo of your choice of plant through a machine learning model. 
 
-Using ['Plant.id's plant analysis model'](https://web.plant.id/plant-health-assessment/), the app will first identify with a certain probability the plant that you have uploaded alongside displaying its health percentage. 
+Using ['Plant.id's plant analysis model'](https://web.plant.id/plant-health-assessment/), the app will first identify with a certain probability the plant that you have uploaded alongside displaying its health percentage. If you upload something that is NOT a plant (is_plant <0.5), it will flash a warning asking you to upload a photo of a valid plant.
 
 # Links
 ## Link to project
