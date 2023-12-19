@@ -89,7 +89,6 @@ def view_index():
 @app.route('/uploadplant')
 def view_uploadplant():
     if 'username' not in session:
-        # print("not logged in")
         flash("Please log in to upload plants.","not_logged_in")
         return redirect(url_for('show_login'))
     return render_template('uploadplant.html')

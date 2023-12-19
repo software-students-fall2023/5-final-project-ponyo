@@ -2,26 +2,11 @@ import os
 import sys
 import pytest
 import mongomock
+import base64
 from plants.web_app import initialize_database, app, bcrypt
 from pymongo.errors import ConnectionFailure
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
-
-# @patch('pymongo.MongoClient')
-# def test_mongodb_connection_success(mock_mongo_client):
-#     """Test to ensure successful MongoDB connection."""
-#     mock_mongo_client.return_value.admin.command.return_value = True
-#     users_collection = initialize_database()
-#     mock_mongo_client.assert_called_with(os.getenv("DATABASE_CONNECTION_STRING"))
-
-# @patch('pymongo.MongoClient')
-# def test_mongodb_connection_failure(mock_mongo_client):
-#     """Test to simulate MongoDB connection failure."""
-#     mock_mongo_client.side_effect = ConnectionFailure("Failed to connect")
-#     with pytest.raises(SystemExit) as pytest_wrapped_e:
-#         initialize_database()
-#     assert pytest_wrapped_e.type == SystemExit
-#     assert pytest_wrapped_e.value.code == 1
 
 def mock_initialize_database():
     mock_client = mongomock.MongoClient()
@@ -80,14 +65,6 @@ def test_create_profile_success(mock_initialize_db, client):
     assert response.status_code == 302
     assert mock_insert.called_once_with({'username': 'newuser', 'password': ...})
 
-# @patch('web_app.initialize_database', side_effect=mock_initialize_database)
-# @patch('flask_bcrypt.Bcrypt.check_password_hash', return_value=True)
-# def test_login_success(mock_bcrypt, mock_initialize_db, client):
-#     response = client.post('/login', data={'username': 'testuser', 'password': 'testpass'})
-#     assert 'username' in session
-#     assert session['username'] == 'testuser'
-#     assert response.status_code == 302
-#     assert response.location.endswith(url_for('view_mainscreen'))
 
 @patch('web_app.initialize_database', side_effect=mock_initialize_database)
 @patch('flask_bcrypt.Bcrypt.check_password_hash', return_value=False)
@@ -97,33 +74,33 @@ def test_login_failure(mock_bcrypt, mock_initialize_db, client):
     assert response.status_code == 302 
     assert response.location.endswith(url_for('show_login'))
 
-# def test_connection_failure():
-#     # Mock environment variables
-#     with patch('os.getenv') as mock_getenv:
-#         mock_getenv.side_effect = ['invalid_connection_string', 'database_name', 'collection_name']
+def test_logout_redirects(client):
+    """Test that logout redirects to the index page."""
+    response = client.get('/logout')
+    assert response.status_code == 302  # redirect status code
+    assert response.location.endswith(url_for('index'))  #  checking redirection
 
-#         # Mock MongoClient exception
-#         with patch('pymongo.MongoClient') as mock_client:
-#             mock_client.return_value.admin.command.side_effect = ConnectionFailure('Connection refused')
+def test_view_uploadplant_redirects_when_not_logged_in(client):
+    """Test that /uploadplant redirects to login page when user is not logged in."""
+    response = client.get('/uploadplant')
+    assert response.status_code == 302  # redirect status code
+    assert response.location.endswith(url_for('show_login'))  # checking redirection
 
-#             # Capture output
-#             with patch('sys.exit') as mock_exit:
-#                 try:
-#                     mock_initialize_database()
-#                 except Exception as e:
-#                     assert False, f"Unexpected exception: {e}"
+def test_view_plants_with_real_image(client):
+    TEST_IMAGE_PATH = "plants/tests/test_images/GoldenCactusPlant.jpeg"
+    with open(TEST_IMAGE_PATH, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
 
-#                 # Verify printed message
-#                 assert print.call_args[0][0] == f"MongoDB connection failed: Connection refused"
+    # mocking the identifyPlant function
+    with patch('plants.web_app.identifyPlant') as mock_identify_plant:
+        # Set the mock to return a predefined value
+        mock_identify_plant.return_value = (0.85, "Mocked Plant", 0.95)
+        headers = {'Content-Type': 'application/json'}
+        response = client.post('/view_plants', json={"image": encoded_string}, headers=headers)
+        assert response.status_code == 200
 
-#                 # Verify MongoClient call
-#                 mock_client.assert_called_once_with('invalid_connection_string')
 
-#                 # Verify admin command
-#                 mock_client.return_value.admin.command.assert_called_once_with('ping')
 
-#                 # Verify sys.exit call
-#                 mock_exit.assert_called_once_with(1)
 
 
 
