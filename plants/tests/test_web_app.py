@@ -7,6 +7,8 @@ from pymongo.errors import ConnectionFailure
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
 
+# jdfklas
+
 # @patch('pymongo.MongoClient')
 # def test_mongodb_connection_success(mock_mongo_client):
 #     """Test to ensure successful MongoDB connection."""
