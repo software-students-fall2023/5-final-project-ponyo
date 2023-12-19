@@ -1,8 +1,6 @@
-
-=======
 [![CI/CD](https://github.com/software-students-fall2023/5-final-project-ponyo/actions/workflows/cd-ci.yml/badge.svg)](https://github.com/software-students-fall2023/5-final-project-ponyo/actions/workflows/cd-ci.yml)
 # Link to project
-http://104.131.66.30:5001/
+
 
 # Team Members
 
@@ -21,6 +19,11 @@ Ponyo Plants is a plant health app that identifies and analyzes a photo of your 
 Using ['Plant.id's plant analysis model'](https://web.plant.id/plant-health-assessment/), the app will first identify with a certain probability the plant that you have uploaded alongside displaying its health percentage. 
 
 # Links
+## Link to project
+http://104.131.66.30:5001/
+
+## Docker hub repository
+https://hub.docker.com/r/rafinator123/ponyo-plants
 
 # Dependencies
 
