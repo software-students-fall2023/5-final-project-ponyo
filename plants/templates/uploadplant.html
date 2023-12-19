@@ -177,24 +177,6 @@
     </style>
 
     <body>
-        <!-- {% with messages = get_flashed_messages(category_filter=['login_error']) %}
-        {% if messages %}
-        <script>
-            window.onload = function () {
-                incorrectUorP();
-            }
-        </script>
-        {% endif %}
-        {% endwith %} -->
-        <!-- {% with messages = get_flashed_messages(category_filter=['not_plant']) %}
-        {% if messages %}
-        <script>
-            window.onload = function() {
-                notPlant();
-            }
-        </script>
-        {% endif %}
-        {% endwith %} -->
         {% with messages = get_flashed_messages(category_filter=['not_plant']) %}
             {% if messages %}
                 <div class="alert alert-warning">
