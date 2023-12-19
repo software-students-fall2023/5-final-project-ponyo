@@ -17,6 +17,7 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY')
 
 
 def initialize_database():
+    db_connection_string = os.getenv("DATABASE_CONNECTION_STRING")
     try:
         client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
         db = client.ponyo_plant
