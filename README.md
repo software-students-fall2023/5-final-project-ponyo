@@ -20,10 +20,11 @@ Using ['Plant.id's plant analysis model'](https://web.plant.id/plant-health-asse
 
 # Links
 ## Link to project
-http://167.172.18.107:5001/
+http://104.131.66.30:5001/
 
 ## Docker hub repository
 https://hub.docker.com/r/rafinator123/ponyo-plants
+
 
 # Dependencies
 
