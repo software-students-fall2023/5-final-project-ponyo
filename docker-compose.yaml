@@ -11,8 +11,17 @@ services:
       - API_KEY
     depends_on:
       - mongodb
+    networks:
+      - mynetwork
+
   mongodb:
     container_name: mongodb
     image: mongo
     ports:
       - '27017:27017'
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
