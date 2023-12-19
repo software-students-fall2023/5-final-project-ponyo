@@ -8,55 +8,26 @@ from plants.web_app import initialize_database, app, bcrypt
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
 
-DATABASE_CONNECTION_STRING = os.getenv("DATABASE_CONNECTION_STRING")
-
-def database_connection_string():
-    """DB connection string"""
-    return DATABASE_CONNECTION_STRING
-
 def mock_initialize_database():
     mock_client = mongomock.MongoClient()
     db = mock_client['test_db']
-    users_collection = db['users']
+    users_collection = db.get_collection("users")
     users_collection.insert_one({"username": "testuser", "password": bcrypt.generate_password_hash("testpass").decode('utf-8')})
     return db,users_collection
 
-# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-def test_connection_to_db_successful():
+@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+def test_connection_to_db_successful(mocked_initialize_database):
     """Tests connection to DB"""
-    db, users_collection = initialize_database(database_connection_string())
+    db, users_collection = initialize_database()
     assert db is not None
     assert users_collection is not None
 
-# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-def test_collection_and_database_exist():
+@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+def test_collection_and_database_exist(mocked_initialize_database):
     """Tests db connection and existence"""
-    db, users_collection = initialize_database(database_connection_string())
+    db, users_collection = initialize_database()
     assert users_collection.name == "users"
     assert db.name == "ponyo_plant"
-
-# def test_connection_to_db_successful():
-#     """Tests connection to DB"""
-#     users_collection = initialize_database()
-#     assert users_collection is not None
-
-# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-# def test_connection_to_db_successful(mocked_db_init):
-#     """Tests connection to DB"""
-#     users_collection = initialize_database()
-#     assert users_collection is not None
-
-# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-# def test_collection_and_database_exist(mocked_db_init):
-#     """Tests db connection and existence"""
-#     users_collection = initialize_database()
-#     assert users_collection.name == "users"
-
-
-# def test_collection_and_database_exist():
-#     """Tests db connection and existence"""
-#     database = initialize_database()
-#     assert database.name == "users"
 
 @pytest.fixture
 def client():
