@@ -25,6 +25,10 @@ http://104.131.66.30:5001/
 ## Docker hub repository
 https://hub.docker.com/r/rafinator123/ponyo-plants
 
+# Test Coverage
+
+![Local Image](coverage.png)
+
 # Dependencies
 
 Ponyo Plants uses Plant.id's API that require unique keys for access. 
