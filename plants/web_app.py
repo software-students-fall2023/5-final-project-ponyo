@@ -53,7 +53,7 @@ def show_login():
 
 @app.route('/logout')
 def logout():
-    session.pop('username', None)  # removing the username from the session
+    session.pop('username', None)  
     return redirect(url_for('index'))
 
 @app.route("/createprofile", methods=["GET"])
