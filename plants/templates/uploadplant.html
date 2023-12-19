@@ -149,6 +149,31 @@
             max-width: 600px;
             margin-bottom: 10px;
         }
+        .alert-warning {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .alert-warning .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .alert-warning strong {
+            font-weight: bold;
+        }
+
     </style>
 
     <body>
@@ -161,18 +186,23 @@
         </script>
         {% endif %}
         {% endwith %} -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- {% with messages = get_flashed_messages(category_filter=['not_plant']) %}
+        {% if messages %}
         <script>
             window.onload = function() {
-                {% for category, message in messages %}
-                    {% if category == 'login_error' %}
-                        incorrectUorP();
-                    {% elif category == 'not_logged_in' %}
-                        notLoggedIn();
-                    {% endif %}
-                {% endfor %}
+                notPlant();
             }
         </script>
+        {% endif %}
+        {% endwith %} -->
+        {% with messages = get_flashed_messages(category_filter=['not_plant']) %}
+            {% if messages %}
+                <div class="alert alert-warning">
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
         {% endwith %}
         <div class="d-flex">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
@@ -236,10 +266,12 @@
         window.location.href = 'index.html';
     }
 
-    function incorrectUorP() {
-        alert("Incorrect Username or Password! Please try Again or Create a Profile.");
-    }
-
+    // function incorrectUorP() {
+    //     alert("Incorrect Username or Password! Please try Again or Create a Profile.");
+    // }
+    // function notPlant() {
+    //     alert("Sorry but what you uploaded is not a plant! Please try again.");
+    // }
     
     document.getElementById('uploadForm').addEventListener('submit', function(e) {
         e.preventDefault();

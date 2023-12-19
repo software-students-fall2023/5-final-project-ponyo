@@ -38,7 +38,7 @@ def show_login():
     if request.method == "GET":
         return render_template("login.html")
     else:
-        db, users_collection = initialize_database()
+        _, users_collection = initialize_database(db_connection_string)
         username = request.form.get('username')
         password = request.form.get('password')
 
@@ -62,7 +62,7 @@ def show_createprofile():
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
-    db, users_collection = initialize_database()
+    _, users_collection = initialize_database(db_connection_string)
     username = request.form.get('username')
     password = request.form.get('password')
     
@@ -98,14 +98,21 @@ def view_uploadplant():
 @app.route('/view_plants', methods=['POST'])
 def view_plants():
     image_data = request.json["image"]  # extracting base64 image data
-    is_healthy_prob, plant_name, plant_probability = identifyPlant(image_data)
+    is_healthy_prob, plant_name, plant_probability, is_plant = identifyPlant(image_data)
     is_healthy_percentage = "{:.1f}%".format(is_healthy_prob * 100)
     plant_probability = "{:.1f}%".format(plant_probability * 100)
 
-    return render_template('plants.html', 
+    if is_plant > 0.5:
+        return render_template('plants.html', 
                            is_healthy_prob=is_healthy_percentage, 
                            plant_name=plant_name, 
                            plant_probability=plant_probability)
+    else:
+        print("Flashing not-plant message")
+        flash("Please upload an image of a plant.","not_plant")
+        print("not a plant")
+        return redirect(url_for('view_uploadplant'))
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001)
 

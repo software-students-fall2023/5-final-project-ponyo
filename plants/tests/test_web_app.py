@@ -9,12 +9,12 @@ from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
 from dotenv import load_dotenv
 
-# load_dotenv()
-# DATABASE_CONNECTION_STRING = os.getenv("DATABASE_CONNECTION_STRING")
+load_dotenv()
+DATABASE_CONNECTION_STRING = os.getenv("DATABASE_CONNECTION_STRING")
 
-# def database_connection_string():
-#     """DB connection string"""
-#     return DATABASE_CONNECTION_STRING
+def database_connection_string():
+    """DB connection string"""
+    return DATABASE_CONNECTION_STRING
 
 # def mock_initialize_database():
 #     mock_client = mongomock.MongoClient()
@@ -23,19 +23,19 @@ from dotenv import load_dotenv
 #     users_collection.insert_one({"username": "testuser", "password": bcrypt.generate_password_hash("testpass").decode('utf-8')})
 #     return db,users_collection
 
-# # @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-# def test_connection_to_db_successful():
-#     """Tests connection to DB"""
-#     db, users_collection = initialize_database(database_connection_string())
-#     assert db is not None
-#     assert users_collection is not None
+# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+def test_connection_to_db_successful():
+    """Tests connection to DB"""
+    db, users_collection = initialize_database(database_connection_string())
+    assert db is not None
+    assert users_collection is not None
 
-# # # @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-# def test_collection_and_database_exist():
-#     """Tests db connection and existence"""
-#     db, users_collection = initialize_database(database_connection_string())
-#     assert users_collection.name == "users"
-#     assert db.name == "ponyo_plant"
+# # @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+def test_collection_and_database_exist():
+    """Tests db connection and existence"""
+    db, users_collection = initialize_database(database_connection_string())
+    assert users_collection.name == "users"
+    assert db.name == "ponyo_plant"
 
 @pytest.fixture
 def client():
@@ -88,7 +88,7 @@ def test_view_plants_with_real_image(client):
     # mocking the identifyPlant function
     with patch('plants.web_app.identifyPlant') as mock_identify_plant:
         # Set the mock to return a predefined value
-        mock_identify_plant.return_value = (0.85, "Mocked Plant", 0.95)
+        mock_identify_plant.return_value = (0.85, "Mocked Plant", 0.95, 0.95)
         headers = {'Content-Type': 'application/json'}
         response = client.post('/view_plants', json={"image": encoded_string}, headers=headers)
         assert response.status_code == 200

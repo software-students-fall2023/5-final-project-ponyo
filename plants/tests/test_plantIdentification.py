@@ -50,11 +50,11 @@ def get_expected_result(image_path):
                 "result": {
                     "is_healthy": {"probability": 0.95},
                     "classification": {
-                        "suggestions": [{"name": "Rose", "probability": 0.9}]
-                    }
+                        "suggestions": [{"name": "Rose", "probability": 0.9}]},
+                    "is_plant": {"probability": 0.95}
                 }
             },
-            (0.95, "Rose", 0.9)
+            (0.95, "Rose", 0.9, 0.95)
         )
     ]
 )
