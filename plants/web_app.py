@@ -14,19 +14,19 @@ load_dotenv()
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
+db_connection_string = os.getenv("DATABASE_CONNECTION_STRING")
 
 
-def initialize_database():
-    db_connection_string = os.getenv("DATABASE_CONNECTION_STRING")
+def initialize_database(db_connection_string):
     try:
-        client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
+        client = MongoClient(db_connection_string)
         db = client.ponyo_plant
         users_collection = db.get_collection("users")
         client.admin.command('ping')
-        return users_collection
-    except ConnectionFailure as e:
-        print(f"MongoDB connection failed: {e}")
-        sys.exit(1)
+        return db, users_collection
+    except ConnectionError as error:
+        logging.error("Exception connecting to MongoDB: %s", error)
+        raise
 
 @app.route('/')
 def index():
@@ -38,7 +38,7 @@ def show_login():
     if request.method == "GET":
         return render_template("login.html")
     else:
-        users_collection = initialize_database()
+        db, users_collection = initialize_database()
         username = request.form.get('username')
         password = request.form.get('password')
 
@@ -62,7 +62,7 @@ def show_createprofile():
 
 @app.route('/createprofile', methods=['POST'])
 def create_profile():
-    users_collection = initialize_database()
+    db, users_collection = initialize_database()
     username = request.form.get('username')
     password = request.form.get('password')
     

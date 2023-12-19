@@ -13,24 +13,42 @@ def mock_initialize_database():
     db = mock_client['test_db']
     users_collection = db['users']
     users_collection.insert_one({"username": "testuser", "password": bcrypt.generate_password_hash("testpass").decode('utf-8')})
-    return users_collection
+    return db,users_collection
+
+DATABASE_CONNECTION_STRING = os.getenv("DATABASE_CONNECTION_STRING")
+
+def database_connection_string():
+    """DB connection string"""
+    return DATABASE_CONNECTION_STRING
+
+def test_connection_to_db_successful():
+    """Tests connection to DB"""
+    db, users_collection = initialize_database(database_connection_string())
+    assert db is not None
+    assert users_collection is not None
+
+def test_collection_and_database_exist():
+    """Tests db connection and existence"""
+    db, users_collection = initialize_database(database_connection_string())
+    assert users_collection.name == "users"
+    assert db.name == "ponyo_plant"
 
 # def test_connection_to_db_successful():
 #     """Tests connection to DB"""
 #     users_collection = initialize_database()
 #     assert users_collection is not None
 
-@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-def test_connection_to_db_successful(mocked_db_init):
-    """Tests connection to DB"""
-    users_collection = initialize_database()
-    assert users_collection is not None
+# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+# def test_connection_to_db_successful(mocked_db_init):
+#     """Tests connection to DB"""
+#     users_collection = initialize_database()
+#     assert users_collection is not None
 
-@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-def test_collection_and_database_exist(mocked_db_init):
-    """Tests db connection and existence"""
-    users_collection = initialize_database()
-    assert users_collection.name == "users"
+# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+# def test_collection_and_database_exist(mocked_db_init):
+#     """Tests db connection and existence"""
+#     users_collection = initialize_database()
+#     assert users_collection.name == "users"
 
 
 # def test_collection_and_database_exist():
