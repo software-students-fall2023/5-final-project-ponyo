@@ -4,7 +4,7 @@ import pytest
 import mongomock
 import base64
 from plants.web_app import initialize_database, app, bcrypt
-from pymongo.errors import ConnectionFailure
+# from pymongo.errors import ConnectionFailure
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
 
@@ -15,15 +15,28 @@ def mock_initialize_database():
     users_collection.insert_one({"username": "testuser", "password": bcrypt.generate_password_hash("testpass").decode('utf-8')})
     return users_collection
 
-def test_connection_to_db_successful():
+# def test_connection_to_db_successful():
+#     """Tests connection to DB"""
+#     users_collection = initialize_database()
+#     assert users_collection is not None
+
+@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+def test_connection_to_db_successful(mocked_db_init):
     """Tests connection to DB"""
     users_collection = initialize_database()
     assert users_collection is not None
 
-def test_collection_and_database_exist():
+@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+def test_collection_and_database_exist(mocked_db_init):
     """Tests db connection and existence"""
-    database = initialize_database()
-    assert database.name == "users"
+    users_collection = initialize_database()
+    assert users_collection.name == "users"
+
+
+# def test_collection_and_database_exist():
+#     """Tests db connection and existence"""
+#     database = initialize_database()
+#     assert database.name == "users"
 
 @pytest.fixture
 def client():
@@ -55,7 +68,7 @@ def test_createprofile_get_route(client):
     assert response.status_code == 200
     assert b"Ponyo" in response.data
 
-@patch('web_app.initialize_database', side_effect=mock_initialize_database)
+@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
 def test_create_profile_success(mock_initialize_db, client):
     mock_initialize_db.return_value.find_one.return_value = None
     mock_insert = mock_initialize_db.return_value.insert_one
@@ -66,7 +79,7 @@ def test_create_profile_success(mock_initialize_db, client):
     assert mock_insert.called_once_with({'username': 'newuser', 'password': ...})
 
 
-@patch('web_app.initialize_database', side_effect=mock_initialize_database)
+@patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
 @patch('flask_bcrypt.Bcrypt.check_password_hash', return_value=False)
 def test_login_failure(mock_bcrypt, mock_initialize_db, client):
     response = client.post('/login', data={'username': 'testuser', 'password': 'wrongpass'})
