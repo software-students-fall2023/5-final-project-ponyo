@@ -74,8 +74,8 @@ def create_profile():
     else:
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         users_collection.insert_one({"username": username, "password": hashed_password})
-        flash("Profile created successfully.")
-        return redirect(url_for('view_index'))
+        flash("Profile created successfully.","profile_created")
+        return redirect(url_for('show_login'))
 
 @app.route('/index')
 def view_index():

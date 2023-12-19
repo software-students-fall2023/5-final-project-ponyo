@@ -140,6 +140,16 @@
         </script>
         {% endif %}
         {% endwith %}
+
+        {% with messages = get_flashed_messages(category_filter=['profile_created']) %}
+        {% if messages %}
+        <script>
+            window.onload = function() {
+                profile_created();
+            }
+        </script>
+        {% endif %}
+        {% endwith %}
         <div class="d-flex">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 150px;">
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
@@ -224,5 +234,9 @@
 
     function notLoggedIn() {
       alert("You must be logged in to upload a plant.");
+    }
+
+    function profile_created() {
+      alert("Profile created! Please log in.");
     }
   </script>
