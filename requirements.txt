@@ -7,7 +7,5 @@ coverage
 chardet
 pytest
 pymongo
-pylint
-black
 chardet
 mongomock

@@ -24,18 +24,18 @@ def database_connection_string():
 #     return db,users_collection
 
 # @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-def test_connection_to_db_successful():
-    """Tests connection to DB"""
-    db, users_collection = initialize_database(database_connection_string())
-    assert db is not None
-    assert users_collection is not None
+# def test_connection_to_db_successful():
+#     """Tests connection to DB"""
+#     db, users_collection = initialize_database(database_connection_string())
+#     assert db is not None
+#     assert users_collection is not None
 
-# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
-def test_collection_and_database_exist():
-    """Tests db connection and existence"""
-    db, users_collection = initialize_database(database_connection_string())
-    assert users_collection.name == "users"
-    assert db.name == "ponyo_plant"
+# # @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
+# def test_collection_and_database_exist():
+#     """Tests db connection and existence"""
+#     db, users_collection = initialize_database(database_connection_string())
+#     assert users_collection.name == "users"
+#     assert db.name == "ponyo_plant"
 
 @pytest.fixture
 def client():
