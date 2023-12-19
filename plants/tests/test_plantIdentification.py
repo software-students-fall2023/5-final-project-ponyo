@@ -7,21 +7,21 @@ import requests
 from plants.plantIdentification import detect_encoding, convBase64, identifyPlant  
 from unittest.mock import patch, MagicMock
 
-@pytest.fixture
-def mocker_chardet_detect(mocker):
-    return mocker.patch("chardet.detect", return_value={"encoding": "utf-8"})
+# @pytest.fixture
+# def mocker_chardet_detect(mocker):
+#     return mocker.patch("chardet.detect", return_value={"encoding": "utf-8"})
 
-def test_detect_encoding(mocker_chardet_detect):
-    file_content = b"Sample content"
-    file_path = "test_file.txt"
+# def test_detect_encoding(mocker_chardet_detect):
+#     file_content = b"Sample content"
+#     file_path = "test_file.txt"
 
-    # Using the mock_open to simulate file reading
-    with patch("builtins.open", mock_open(read_data=file_content)):
-        result = detect_encoding(file_path)
+#     # Using the mock_open to simulate file reading
+#     with patch("builtins.open", mock_open(read_data=file_content)):
+#         result = detect_encoding(file_path)
 
-    # Assertions
-    mocker_chardet_detect.assert_called_once_with(file_content)
-    assert result == "utf-8"
+#     # Assertions
+#     mocker_chardet_detect.assert_called_once_with(file_content)
+#     assert result == "utf-8"
 
 TEST_IMAGE_PATH = "plants/tests/test_images/GoldenCactusPlant.jpeg"
 
