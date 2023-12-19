@@ -8,6 +8,12 @@ from plants.web_app import initialize_database, app, bcrypt
 from flask import Flask, session, url_for
 from unittest.mock import patch, MagicMock
 
+DATABASE_CONNECTION_STRING = os.getenv("DATABASE_CONNECTION_STRING")
+
+def database_connection_string():
+    """DB connection string"""
+    return DATABASE_CONNECTION_STRING
+
 def mock_initialize_database():
     mock_client = mongomock.MongoClient()
     db = mock_client['test_db']
@@ -15,18 +21,14 @@ def mock_initialize_database():
     users_collection.insert_one({"username": "testuser", "password": bcrypt.generate_password_hash("testpass").decode('utf-8')})
     return db,users_collection
 
-DATABASE_CONNECTION_STRING = os.getenv("DATABASE_CONNECTION_STRING")
-
-def database_connection_string():
-    """DB connection string"""
-    return DATABASE_CONNECTION_STRING
-
+# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
 def test_connection_to_db_successful():
     """Tests connection to DB"""
     db, users_collection = initialize_database(database_connection_string())
     assert db is not None
     assert users_collection is not None
 
+# @patch('plants.web_app.initialize_database', side_effect=mock_initialize_database)
 def test_collection_and_database_exist():
     """Tests db connection and existence"""
     db, users_collection = initialize_database(database_connection_string())
