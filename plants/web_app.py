@@ -14,10 +14,12 @@ load_dotenv()
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
+db_connection_string = os.getenv("DATABASE_CONNECTION_STRING")
 
-def initialize_database():
+
+def initialize_database(db_connection_string):
     try:
-        client = MongoClient(os.getenv("DATABASE_CONNECTION_STRING"))
+        client = MongoClient(db_connection_string)
         db = client.ponyo_plant
         users_collection = db.get_collection("users")
         client.admin.command('ping')
