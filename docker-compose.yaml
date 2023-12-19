@@ -2,10 +2,13 @@ version: '3'
 services:
   web_app:
     container_name: ponyo-plants
-    # restart: always
     build: .
     ports:
       - '5001:5001'
+    environment:
+      - DATABASE_CONNECTION_STRING
+      - FLASK_SECRET_KEY
+      - API_KEY
     links:
       - mongodb
   mongodb:

@@ -41,6 +41,7 @@ def test_collection_and_database_exist(mocked_db_init):
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
+    app.config["SECRET_KEY"] = "no body no crime"
     with app.test_client() as client:
         yield client
 
